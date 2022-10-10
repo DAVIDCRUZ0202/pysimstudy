@@ -1,0 +1,10 @@
+.DS_Store
+.vscode
+.ipynb_checkpoints/
+Python_Workspace_Simulacra.ipynb
+py_scripts/__pycache__/
+simstudy.ipynb
+simstudy-dev-gg.ipynb
+.vscode/settings.json
+Asserts_Tests.ipynb
+Simstudy_Biased_data_Sandbox.ipynb
