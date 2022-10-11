@@ -18,6 +18,12 @@ For an in-detail discussion about simstudy, please refer to the R package's orig
 
 ## How to use the package - generating biased synthetic data
 
+Install from pip with
+
+`pip install pysimstudy`
+
+From there, do a `from pysimstudy import *` in a notebook, and you are good to go.
+
 A simple demo in which we define bias as an decreased (increased) likelihood of witnessing a succesful (unsuccesful) outcome due to being part of a certain group, holding all else equal.
 
 
