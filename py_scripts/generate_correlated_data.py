@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from scipy import stats
-from py_scripts.utility import (gammaGetShapeRate, negbinomGetSizeProb, 
+from .utility import (gammaGetShapeRate, negbinomGetSizeProb, 
                                 genQuantU)
 import math
 

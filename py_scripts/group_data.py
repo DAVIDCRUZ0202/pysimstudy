@@ -1,11 +1,52 @@
 import pandas as pd
 import numpy as np
 import math
-from py_scripts.add_data import addColumns
-from py_scripts.define_data import defData
+from .define_data import defData
+from .generate_dist import generate
 # silence SettingWithCopyWarning
 pd.options.mode.chained_assignment = None
 
+def addColumns(dtdefs, dtOld):
+    """
+    Add columns to existing dataset
+
+
+    Args:
+        dtdefs (dataframe): name of data definition table for cols
+        dtOld (dataframe): name of data table to be updated
+
+    returns:
+        A dataframe with added columns
+    """
+
+    assert isinstance(dtdefs, pd.DataFrame), \
+        "definitions should be a dataframe"
+    assert isinstance(dtOld, pd.DataFrame), \
+        "data table should be a dataframe"
+
+    if any([name for name in dtdefs['varname'] if name in dtOld.columns]):
+        raise Exception("Column name to generate already exists \n" +
+                        "Please choose another one")
+
+    # TODO evalDef code goes in here
+    # for i in range(0, dtdefs.shape[0]):
+    # add evalDef code
+
+    if len(dtOld.attrs) > 0:
+        oldkey = dtOld.attrs['id']
+    else:
+        oldkey = 'id'
+    iterations = dtdefs.shape[0]
+    n = dtOld.shape[0]
+
+    for i in range(0, iterations):
+        dtOld = generate(args=dtdefs.iloc[i], n=n,
+                         dfSim=dtOld, idname=oldkey)
+    # TODO Check id assignments. we are overwriting 'id'
+
+    dtOld = pd.DataFrame(dtOld)
+
+    return dtOld
 
 def addPeriods(df, nPeriods=None, idvars="id",
                timevars=None, timevarName="timevar",
@@ -254,59 +295,6 @@ def addStrataCode(dt, strata):
     dtcopy = dtcopy.merge(dtstrata, on=strata)
     dtcopy = dtcopy.drop(0, axis=1)
     return dtcopy
-
-
-def trtAssign(dtName: pd.DataFrame, nTrt=2, balanced=True, strata=None,
-              grpName="trtGrp", ratio=None):
-    """assign treatment groups
-
-    Args:
-        dtName (_type_): _description_
-        nTrt (int, optional): _description_. Defaults to 2.
-        balanced (bool, optional): _description_. Defaults to True.
-        strata (_type_, optional): _description_. Defaults to None.
-        grpName (str, optional): _description_. Defaults to "trtGrp".
-        ratio (_type_, optional): _description_. Defaults to None.
-
-    Returns:
-        _type_: _description_
-    """
-    # TODO implement these asserts
-    # assertNotMissing(dtName = missing(dtName))
-    # assertNotInDataTable(grpName, dtName)
-    dt = dtName.copy()
-
-    if ratio is not None:
-        if isinstance(ratio, list):
-            assert len(ratio) == nTrt, "Lengths of ratios and"
-            +"number of treaments should be equal"
-        elif isinstance(ratio, int):
-            assert ratio == nTrt, "Lengths of ratios and"
-            +"number of treaments should be equal"
-            # dt = dtName.copy()
-    if balanced:
-        if strata is None:
-            dt['strata_num'] = [1] * dt.shape[0]
-        else:
-            dt = addStrataCode(dt, strata)
-
-        dt = dt.merge(dt['strata_num'].value_counts().reset_index().
-                      rename({'index': 'strata_num', 'strata_num': '_n'},
-                      axis=1))
-
-        dt[grpName] = stratSamp(dt.shape[0], ncat=nTrt, ratio=None)
-        dt = dt.drop(['_n', 'strata_num'], axis=1)
-    else:
-        if ratio is None:
-            if nTrt == 2:
-                formula = 0.5
-            else:
-                formula = list(np.repeat(1/nTrt, nTrt))
-
-        dt = trtObserve(dt, formulas=formula, logit_link=False,
-                        grpName=grpName)
-
-    return dt
 
 
 def trtStepWedge(dtName, clustID, nWaves, lenWaves,

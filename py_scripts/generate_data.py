@@ -3,9 +3,9 @@ import pandas as pd
 from scipy import special
 from scipy import stats
 from scipy.stats import logistic
-from py_scripts.utility import adjustProbs, evalWith
-from py_scripts.generate_dist import generate
-from py_scripts.asserts import *
+from .utility import adjustProbs, evalWith
+from .generate_dist import generate
+from .asserts import *
 from typing import List, Union
 
 

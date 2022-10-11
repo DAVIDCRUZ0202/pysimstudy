@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from scipy import special
 from simpleeval import simple_eval
-from py_scripts.asserts import (assertValue, assertLength,
+from .asserts import (assertValue, assertLength,
                                 assertType, assertNotInDataTable)
 
 

@@ -1,53 +1,10 @@
 import pandas as pd
 import numpy as np
 import random
+from .generate_dist import generate
+import parser
 # silence SettingWithCopyWarning
 pd.options.mode.chained_assignment = None
-
-
-def addColumns(dtdefs, dtOld):
-    """
-    Add columns to existing dataset
-
-
-    Args:
-        dtdefs (dataframe): name of data definition table for cols
-        dtOld (dataframe): name of data table to be updated
-
-    returns:
-        A dataframe with added columns
-    """
-    from py_scripts.generate_dist import generate
-
-    assert isinstance(dtdefs, pd.DataFrame), \
-        "definitions should be a dataframe"
-    assert isinstance(dtOld, pd.DataFrame), \
-        "data table should be a dataframe"
-
-    if any([name for name in dtdefs['varname'] if name in dtOld.columns]):
-        raise Exception("Column name to generate already exists! \n"+
-                        "Please choose another one")
-
-    # TODO evalDef code goes in here
-    # for i in range(0, dtdefs.shape[0]):
-    # add evalDef code
-
-    if len(dtOld.attrs) > 0:
-        oldkey = dtOld.attrs['id']
-    else:
-        oldkey = 'id'
-    iterations = dtdefs.shape[0]
-    n = dtOld.shape[0]
-
-    for i in range(0, iterations):
-        dtOld = generate(args=dtdefs.iloc[i], n=n,
-                         dfSim=dtOld, idname=oldkey)
-    # TODO Check id assignments. we are overwriting 'id'
-
-    dtOld = pd.DataFrame(dtOld)
-
-    return dtOld
-
 
 def addCondition(condDefs: pd.DataFrame, dtOld: pd.DataFrame,
                  newvar: str, keepOld=False):
@@ -72,8 +29,6 @@ def addCondition(condDefs: pd.DataFrame, dtOld: pd.DataFrame,
     data frame with added column based on condition
 
     """
-    from py_scripts.generate_dist import generate
-    import parser
 
     cDefs = condDefs.copy()
     if newvar in dtOld.columns:

@@ -2,11 +2,62 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 from scipy.stats import poisson
-from py_scripts.utility import (gammaGetShapeRate, negbinomGetSizeProb,
+from .utility import (gammaGetShapeRate, negbinomGetSizeProb,
                                 betaGetShapes, evalWith, parseCatFormula,
                                 parseUnifFormula)
-from py_scripts.group_data import trtAssign
 from patsy.splines import bs
+
+def trtAssign(dtName: pd.DataFrame, nTrt=2, balanced=True, strata=None,
+              grpName="trtGrp", ratio=None):
+    """assign treatment groups
+
+    Args:
+        dtName (_type_): _description_
+        nTrt (int, optional): _description_. Defaults to 2.
+        balanced (bool, optional): _description_. Defaults to True.
+        strata (_type_, optional): _description_. Defaults to None.
+        grpName (str, optional): _description_. Defaults to "trtGrp".
+        ratio (_type_, optional): _description_. Defaults to None.
+
+    Returns:
+        _type_: _description_
+    """
+    # TODO implement these asserts
+    # assertNotMissing(dtName = missing(dtName))
+    # assertNotInDataTable(grpName, dtName)
+    dt = dtName.copy()
+
+    if ratio is not None:
+        if isinstance(ratio, list):
+            assert len(ratio) == nTrt, "Lengths of ratios and"
+            +"number of treaments should be equal"
+        elif isinstance(ratio, int):
+            assert ratio == nTrt, "Lengths of ratios and"
+            +"number of treaments should be equal"
+            # dt = dtName.copy()
+    if balanced:
+        if strata is None:
+            dt['strata_num'] = [1] * dt.shape[0]
+        else:
+            dt = addStrataCode(dt, strata)
+
+        dt = dt.merge(dt['strata_num'].value_counts().reset_index().
+                      rename({'index': 'strata_num', 'strata_num': '_n'},
+                      axis=1))
+
+        dt[grpName] = stratSamp(dt.shape[0], ncat=nTrt, ratio=None)
+        dt = dt.drop(['_n', 'strata_num'], axis=1)
+    else:
+        if ratio is None:
+            if nTrt == 2:
+                formula = 0.5
+            else:
+                formula = list(np.repeat(1/nTrt, nTrt))
+
+        dt = trtObserve(dt, formulas=formula, logit_link=False,
+                        grpName=grpName)
+
+    return dt
 
 
 def generate(args, n, dfSim, idname):
