@@ -454,7 +454,7 @@ def evalWith(formula, dtSim: pd.DataFrame,
 
     for k, v in special_chars_mapping.items():
         formula = str(formula).replace(k, v)
-    
+        variance = str(variance).replace(k, v)
     ##########################################################
 
     formulaParsed = parser.expr(str(formula)).compile()
@@ -482,8 +482,8 @@ def evalWith(formula, dtSim: pd.DataFrame,
 
     # if there are no variables but just constants i.e. 10
     if len(varNames) == 0:
-        mean = np.float(formula)
-        variance = np.float(variance)
+        mean = np.float(simple_eval(formula))
+        variance = np.float(simple_eval(variance))
     else:
         mean = dtSim.apply(lambda x: simple_eval(formula,
                            names=dict([(i, x[list(dtSim.columns).index(i)])
