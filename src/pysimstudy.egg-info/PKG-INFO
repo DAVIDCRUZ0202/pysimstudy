@@ -1,3 +1,17 @@
+Metadata-Version: 2.1
+Name: pysimstudy
+Version: 0.0.92
+Summary: A package for synthetic data generation
+Author-email: Keith Goldfeld <keith.goldfeld@nyumc.org>, Gabriel Gilling <gabrielgilling@ibm.com>, David Cruz <d.cruz@ibm.com>, Jordan Bond <jbond@ibm.com>
+Project-URL: Homepage, https://github.com/DAVIDCRUZ0202/pysimstudy
+Project-URL: Bug Tracker, https://github.com/DAVIDCRUZ0202/pysimstudy/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
 ## Simulacra - Fake Data Synthesis
 
 ## Goals
