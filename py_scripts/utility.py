@@ -482,8 +482,8 @@ def evalWith(formula, dtSim: pd.DataFrame,
 
     # if there are no variables but just constants i.e. 10
     if len(varNames) == 0:
-        mean = np.float(simple_eval(formula))
-        variance = np.float(simple_eval(variance))
+        mean = (simple_eval(formula))
+        variance = (simple_eval(variance))
     else:
         mean = dtSim.apply(lambda x: simple_eval(formula,
                            names=dict([(i, x[list(dtSim.columns).index(i)])
