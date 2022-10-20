@@ -493,7 +493,8 @@ def evalWith(formula, dtSim: pd.DataFrame,
         # mean = dtSim.apply(lambda z: simple_eval(formula, names=names,
         #                    functions=special_fct_dict)).squeeze()
 
-        variance = np.float(variance)
+        # variance = np.float(variance)
+        variance = (simple_eval(variance))
 
     if link == "log":
         mean = np.exp(mean)
