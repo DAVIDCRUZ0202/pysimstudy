@@ -32,6 +32,8 @@ def addCondition(condDefs: pd.DataFrame, dtOld: pd.DataFrame,
 
     cDefs = condDefs.copy()
     if newvar in dtOld.columns:
+        print(f'New Variable {newvar} already exists')
+        print('Appending _condition to new variable name')
         newvar = newvar+"_condition"
 
     cDefs['varname'] = newvar
@@ -60,6 +62,9 @@ def addCondition(condDefs: pd.DataFrame, dtOld: pd.DataFrame,
                 dfSim=dtTemp.copy(),
                 idname=oldkey
             )
+
+        # print(dtGen)
+        # print(n)
 
         # TODO: this looks inefficient... might need fixing
         dtTemp[newvar] = dtGen[dtGen[newvar].notnull()][newvar].values
