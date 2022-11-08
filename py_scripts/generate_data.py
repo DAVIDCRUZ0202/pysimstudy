@@ -50,14 +50,19 @@ def genData(n: int, dtDefs: pd.DataFrame = None, id: str = "id"):
         # generate a column of data for each row of dtDefs
         iter = dtDefs.shape[0]
 
-    for i in range(iter):        
+    for i in range(iter):
+        # print(dtDefs.iloc[i])
+        
         dfSimulate = generate(
                         args=dtDefs.iloc[i],
                         n=n,
                         dfSim=dfSimulate,
                         idname=id,
                     )
+        # print(dfSimulate.head())
 
+    # print(dfSimulate.head())
+    # dt = pd.DataFrame(dfSimulate)
     dfSimulate = dfSimulate.reset_index().rename({'index':'id'},
                                                  axis=1)
 
