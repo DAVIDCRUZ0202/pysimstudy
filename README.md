@@ -3,10 +3,6 @@
 ## Goals
 This projects aims to help data scientists in easily creating fake datasets for algorithm testing, model validation and general purpose data generation (i.e. accelerators and education).
 
-After conducting research, we found a similar framework had been developed in R called [simstudy](https://github.com/kgoldfeld/simstudy). We decided to translate the package and adapt it to our needs rather than starting from scratch.
-
-A major usecase will be to generate _synthetic biased datasets_ in order to test how various algorithms perform with bias extraction and mitigation.
-
 ## Introduction to simstudy
 
 Before generating synthetic data with simstudy, you first need to understand the two layers involved in the process:
@@ -86,8 +82,6 @@ data_biased.groupby('category')['approval_bias'].mean()
     We have not yet published this package, so the only way to use it is to install the repository onto your local machine via a github download. This is an internal project for now , so any contribution is welcome.
 
 ## Additional Information
-Link to Box Folder:
-https://ibm.ent.box.com/folder/154017733662
 
 Use this style guide for python best coding practices.
 https://www.python.org/dev/peps/pep-0008/
