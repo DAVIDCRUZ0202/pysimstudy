@@ -46,11 +46,12 @@ def addCondition(condDefs: pd.DataFrame, dtOld: pd.DataFrame,
     # TODO: add evaldef checks
 
     iter = cDefs.shape[0]
-
+    print(cDefs)
     dtNew = pd.DataFrame()
 
     for i in range(iter):
         cond = cDefs['condition'].iloc[i]
+        print(cond)
         dtTemp = dtOld.query(expr=cond)
 
         n = dtTemp.shape[0]
